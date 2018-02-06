@@ -1,6 +1,7 @@
 package pe.edu.utp.bands.dto;
 
 public class Users {
+    //Users DTO
     private int id;
     private String username;
     private String email;
