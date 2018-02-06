@@ -64,7 +64,7 @@ public class UsersEntity extends BaseEntity{
     public User findById(int id){
         List<User> users = findByCriteria(
                 DEFAULT_SQL +
-                        "WHERE region_id = " +
+                        "WHERE id = " +
                         String.valueOf(id)
         );
         return (users != null ? users.get(0) : null);
@@ -73,7 +73,7 @@ public class UsersEntity extends BaseEntity{
     public User findByName(String name){
         List<User> users = findByCriteria(
                 DEFAULT_SQL +
-                        " WHERE region_name = '" + name + "'"
+                        " WHERE name = '" + name + "'"
         );
         return  (users.isEmpty()) ? null : users.get(0);
     }
@@ -93,7 +93,7 @@ public class UsersEntity extends BaseEntity{
         }
         return 0;
     }
-    //    Create region
+    //    Create user
     public User create(String username, String password, String email, String name, String lastname){
         if (findByName(username) == null){
             if (getConnection() != null){
@@ -116,6 +116,22 @@ public class UsersEntity extends BaseEntity{
             }
         }
         return null;
+    }
+    //    Delete by Id
+    public boolean delete(int id){
+        return updateByCriteria("DELETE FROM "+table+" WHERE id = " +
+                String.valueOf(id)) > 0;
+    }
+    //    Delete by Name
+    public boolean delete(String username){
+        return updateByCriteria("DELETE FROM "+table+" WHERE username = '" +
+                username + "'") > 0;
+    }
+    //    Update by User Object
+    public boolean update(User user){
+        return updateByCriteria("UPDATE "+table +
+                " SET name = '" + user.getUsername() + "' " +
+                " WHERE id= "+ String.valueOf(user.getId())) > 0;
     }
 
 }
